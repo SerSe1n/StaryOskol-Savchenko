@@ -1,24 +1,25 @@
 import sys
 from random import randint
-from PyQt5 import uic
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
 
 
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.gr = uic.loadUi('UI.ui', self)
+        self.setFixedSize(800, 600)
         self.do_paint = False
+        self.btn = QPushButton('btn', self)
         self.btn.clicked.connect(self.update_picture)
 
     def paintEvent(self, event):
         if self.do_paint:
             qp = QPainter()
             qp.begin(self)
-            qp.setPen(QColor('yellow'))
-            qp.setBrush(QColor('yellow'))
-            a = randint(3, 250)
+            color = QColor(randint(0, 255), randint(0, 255), randint(0, 255))
+            qp.setPen(color)
+            qp.setBrush(color)
+            a = randint(20, 250)
             qp.drawEllipse((800 - a) // 2, 300, a, a)
             qp.end()
             self.do_paint = False
